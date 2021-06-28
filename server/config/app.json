@@ -1,0 +1,12 @@
+{
+    "server_port": 8868,
+    "server_mode": "debug",
+    "data_root_dir": "./data",
+    "temp_dir": "./data/temp",
+    "db_host": "localhost",
+    "db_port": 5432,
+    "db_user": "minioa",
+    "db_pwd": "minioa2021",
+    "db_name": "minioa",
+    "db_timezone": "America/Los_Angeles"
+}

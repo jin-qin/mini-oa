@@ -1,0 +1,20 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+volumes:
+  minioa-db:
+    driver: local
+
+services:
+  db:
+    image: postgres
+    container_name: postgres-minioa
+    restart: always
+    environment:
+      POSTGRES_USER: minioa
+      POSTGRES_PASSWORD: minioa2021
+      POSTGRES_DB: minioa
+    volumes:
+      - minioa-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
