@@ -1,0 +1,99 @@
+.LoginCard {
+    width: 800px;
+    height: 480px;
+    background-color: white;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+.LoginCard-Left {
+    background-image: url('../assets/img/login_bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 450px;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.LoginCard-Right {
+    padding: 20px;
+    width: 350px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: flex-start;
+}
+
+.LoginCard-Top{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+.LoginCard-Top-Title {
+    text-align: left;
+    font-weight: bold;
+    font-size: 36px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 10px;
+}
+
+.LoginCard-Top-SubTitle {
+    text-align: left;
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.LoginCard-Bottom{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: stretch;
+}
+
+.LoginCard-Bottom-LeftText {
+    width: 100%;
+    text-align: left;
+}
+
+.LoginCard-Bottom-Checkbox {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.LoginCard-Bottom-Btn-Submit-Layout {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.LoginCard-Bottom-Btn-Submit {
+    margin-top: 40px;
+    width: 100%;
+    height: 48px;
+    border-radius: 24px;
+    border-width: 0px;
+    background-color: #465AA4;
+    color: white;
+    font-weight: bold;
+
+    transition: linear;
+    transition-duration: 0.2s;
+}
+
+.LoginCard-Bottom-Btn-Submit:hover {
+    background-color: rgba(70, 90, 164, 0.8);
+}
