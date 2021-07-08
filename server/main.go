@@ -8,7 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func AutoMigrate() {
+	users.AutoMigrate()
+}
+
 func main() {
+	AutoMigrate()
+
 	appConfig := config.GetServerConfig()
 	gin.SetMode(appConfig.GetServerMode())
 

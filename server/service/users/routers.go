@@ -1,6 +1,9 @@
 package users
 
 import (
+	"log"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,13 +13,52 @@ func RegisterUserRouters(r *gin.RouterGroup) {
 }
 
 func userLoginRoute(c *gin.Context) {
+	var lv LoginValidator
+	if err := lv.Bind(c); err != nil {
+		log.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "error in posted body",
+		})
+		return
+	}
+
+	userModel, err := FindOneUser(&User{Username: lv.User.Username})
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error": "cannot find this user",
+		})
+		return
+	}
+
+	if userModel.CheckPassword(lv.User.Password) != nil {
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "The user name or the password cannot match the record",
+		})
+		return
+	}
+
 	c.JSON(200, gin.H{
-		"message": "login",
+		"message": "login succeeded",
 	})
 }
 
 func userRegisterRoute(c *gin.Context) {
-	c.JSON(201, gin.H{
-		"message": "register",
+	var uv UserValidator
+	if err := uv.Bind(c); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "error in posted body",
+		})
+		return
+	}
+
+	if err := uv.UserModel.Save(); err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error": err,
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"message": "register succeeded",
 	})
 }
