@@ -27,8 +27,8 @@ func (uv *UserValidator) Bind(c *gin.Context) error {
 
 type LoginValidator struct {
 	User struct {
-		Username string `form:"username" json:"username" binding:"required,alphanum,min=4,max=255"`
-		Password string `form:"password" json:"password" binding:"required,alphanum,min=8,max=255"`
+		Username string `json:"username" binding:"required,alphanum,min=4,max=255"`
+		Password string `json:"password" binding:"required,alphanum,min=8,max=255"`
 	} `json:"user"`
 }
 

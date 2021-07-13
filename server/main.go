@@ -27,5 +27,10 @@ func main() {
 	users_grp := v1.Group("/users")
 	users.RegisterUserRouters(users_grp)
 
+	v1.Use(users.AuthMiddleware(true))
+	///
+	///
+	//
+
 	r.Run(fmt.Sprintf(":%d", appConfig.ServerPort))
 }

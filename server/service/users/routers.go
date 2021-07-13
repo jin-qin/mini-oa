@@ -2,6 +2,7 @@ package users
 
 import (
 	"log"
+	"mini-oa-server/common/auth"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -37,8 +38,12 @@ func userLoginRoute(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, gin.H{
-		"message": "login succeeded",
+	c.JSON(http.StatusOK, gin.H{
+		"user": gin.H{
+			"user_id":  userModel.ID,
+			"username": userModel.Username,
+			"token":    auth.GenJwtToken(userModel.ID),
+		},
 	})
 }
 
