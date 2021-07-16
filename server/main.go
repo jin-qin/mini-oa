@@ -23,14 +23,13 @@ func main() {
 	// Set a lower memory limit for multipart forms (default is 32 MiB)
 	r.MaxMultipartMemory = 8 << 20 // 8 MiB
 
+	// r.Use(static.Serve("/app", static.LocalFile("./client", false)))
+
 	v1 := r.Group("/v1")
 	users_grp := v1.Group("/users")
 	users.RegisterUserRouters(users_grp)
 
 	v1.Use(users.AuthMiddleware(true))
-	///
-	///
-	//
 
 	r.Run(fmt.Sprintf(":%d", appConfig.ServerPort))
 }

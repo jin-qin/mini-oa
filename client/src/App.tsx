@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { Button, Card } from 'react-bootstrap';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   return (

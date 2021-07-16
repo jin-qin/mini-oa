@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
+import { isConstructorDeclaration } from 'typescript';
 import './LoginCard.css';
 
 function LoginCard() {
+    const [username, setUsername] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
     return(
         <div className='LoginCard'>
             <div className='LoginCard-Left'/>
@@ -19,12 +22,12 @@ function LoginCard() {
 
                 <div className='LoginCard-Bottom'>
                     <Form>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label style={{fontWeight: 'bold'}} className='LoginCard-Bottom-LeftText'>EMAIL</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Group controlId="formBasicUsername">
+                            <Form.Label style={{fontWeight: 'bold'}} className='LoginCard-Bottom-LeftText'>USER NAME</Form.Label>
+                            <Form.Control type="text" placeholder="Enter your user name" onChange={e => setUsername(e.target.value)} />
                             <div className='LoginCard-Bottom-LeftText'>
                                 <Form.Text className="text-muted">
-                                We'll never share your email with anyone else.
+                                We'll never share your user name with anyone else.
                                 </Form.Text>
                             </div>
                             
@@ -32,14 +35,19 @@ function LoginCard() {
 
                         <Form.Group controlId="formBasicPassword">
                             <Form.Label style={{fontWeight: 'bold'}} className="LoginCard-Bottom-LeftText" >PASSWORD</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
+                            <Form.Control type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
                         </Form.Group>
                         <Form.Group className="LoginCard-Bottom-Checkbox" controlId="formBasicCheckbox">
                             <Form.Check type="checkbox" label="Save password" />
                         </Form.Group>
 
                         <div className='LoginCard-Bottom-Btn-Submit-Layout'>
-                            <Button bsPrefix="LoginCard-Bottom-Btn-Submit" variant="primary" type="submit" size='lg' >
+                            <Button 
+                                bsPrefix="LoginCard-Bottom-Btn-Submit" 
+                                variant="primary" type="submit" 
+                                size='lg' 
+                                onClick={e => onLogin(e, {username, password})}
+                            >
                                 LOGIN
                             </Button>
                         </div>
@@ -51,3 +59,34 @@ function LoginCard() {
 }
 
 export default LoginCard;
+
+interface LoginProps {
+    username: string,
+    password: string
+}
+
+async function onLogin(e: React.MouseEvent<HTMLElement, MouseEvent>, props: LoginProps) {
+    e.preventDefault();
+
+    const req_options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+            {
+                user: {
+                    username: props.username,
+                    password: props.password
+                }
+            }
+        )
+    }
+
+    fetch('http://localhost:8868/v1/users/login', req_options)
+        .then(rsp => rsp.json())
+        .then(data => {
+            console.log(data)
+        })
+        .catch(e => {
+            console.log(e)
+        })
+}
