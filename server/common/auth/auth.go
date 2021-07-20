@@ -5,11 +5,9 @@ import (
 	"crypto/rsa"
 	"encoding/json"
 	"log"
-	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/gin/binding"
 	"github.com/lestrrat-go/jwx/jwa"
 	"github.com/lestrrat-go/jwx/jwk"
 	"github.com/lestrrat-go/jwx/jwt"
@@ -84,18 +82,18 @@ func (jwtInst *JWT) VerifyTokenPayload(payload string) (TokenClaims, bool) {
 	claims := TokenClaims{}
 
 	if err != nil {
-		log.Panicln("failed to parse JWT token: " + err.Error())
+		log.Println("failed to parse JWT token: " + err.Error())
 		return claims, false
 	}
 
 	buf, err := json.Marshal(token)
 	if err != nil {
-		log.Panicln("failed to generate JSON: " + err.Error())
+		log.Println("failed to generate JSON: " + err.Error())
 		return claims, false
 	}
 
 	if err := json.Unmarshal(buf, &claims); err != nil {
-		log.Panicln("failed to unmarshal JSON: " + err.Error())
+		log.Println("failed to unmarshal JSON: " + err.Error())
 		return claims, false
 	}
 
@@ -107,14 +105,16 @@ type TokenPayloadParam struct {
 }
 
 func (jwtInst *JWT) ParseToken(c *gin.Context) (string, error) {
-	token := c.Request.Header["Authorization"]
-	if len(token) > 0 {
-		return strings.TrimPrefix(token[0], "Bearer"), nil
-	}
+	// token := c.Request.Header["Authorization"]
+	// if len(token) > 0 {
+	// 	return strings.TrimPrefix(token[0], "Bearer"), nil
+	// }
 
 	tokenPayloadParam := TokenPayloadParam{}
-	b := binding.Default(c.Request.Method, c.ContentType())
-	err := c.ShouldBindWith(&tokenPayloadParam, b)
+	// b := binding.Default(c.Request.Method, c.ContentType())
+	// err := c.ShouldBindWith(&tokenPayloadParam, b)
+	token := c.Query("access_token")
+	tokenPayloadParam.Token = token
 
-	return tokenPayloadParam.Token, err
+	return tokenPayloadParam.Token, nil
 }

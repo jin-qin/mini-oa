@@ -38,13 +38,17 @@ func userLoginRoute(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"user": gin.H{
-			"user_id":  userModel.ID,
-			"username": userModel.Username,
-			"token":    auth.GenJwtToken(userModel.ID),
-		},
-	})
+	if lv.IsCheck {
+		c.Status(http.StatusOK)
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"user": gin.H{
+				"user_id":  userModel.ID,
+				"username": userModel.Username,
+				"token":    auth.GenJwtToken(userModel.ID),
+			},
+		})
+	}
 }
 
 func userRegisterRoute(c *gin.Context) {

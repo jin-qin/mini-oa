@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
 import './LoginCard.css';
 
+import * as StorageUtils from '../util/storage';
+
 function LoginCard() {
     const [username, setUsername] = useState<string>('')
     const [password, setPassword] = useState<string>('')
@@ -29,15 +31,11 @@ function LoginCard() {
                                 We'll never share your user name with anyone else.
                                 </Form.Text>
                             </div>
-                            
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
                             <Form.Label style={{fontWeight: 'bold'}} className="LoginCard-Bottom-LeftText" >PASSWORD</Form.Label>
                             <Form.Control type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
-                        </Form.Group>
-                        <Form.Group className="LoginCard-Bottom-Checkbox" controlId="formBasicCheckbox">
-                            <Form.Check type="checkbox" label="Save password" />
                         </Form.Group>
 
                         <div className='LoginCard-Bottom-Btn-Submit-Layout'>
@@ -70,20 +68,18 @@ async function onLogin(e: React.MouseEvent<HTMLElement, MouseEvent>, props: Logi
     const req_options = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(
-            {
-                user: {
-                    username: props.username,
-                    password: props.password
-                }
+        body: JSON.stringify({
+            user: {
+                username: props.username,
+                password: props.password
             }
-        )
+        })
     }
 
     fetch('http://localhost:8868/v1/users/login', req_options)
         .then(rsp => rsp.json())
         .then(data => {
-            console.log(data)
+            StorageUtils.saveUserCredentials(data['user']['user_id'], data['user']['username'], data['user']['token'])
         })
         .catch(e => {
             console.log(e)

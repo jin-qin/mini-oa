@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"mini-oa-server/common/util/config"
+	"mini-oa-server/service/auth"
 	"mini-oa-server/service/users"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -25,7 +27,14 @@ func main() {
 	r.MaxMultipartMemory = 8 << 20 // 8 MiB
 
 	// Enable CORS for all origins
-	r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"*"},
+		AllowHeaders:     []string{"*"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	// r.Use(static.Serve("/app", static.LocalFile("./client", false)))
 
@@ -34,6 +43,9 @@ func main() {
 	users.RegisterUserRouters(users_grp)
 
 	v1.Use(users.AuthMiddleware(true))
+
+	auth_grp := v1.Group("auth")
+	auth.RegisterAuthRouters(auth_grp)
 
 	r.Run(fmt.Sprintf(":%d", appConfig.ServerPort))
 }

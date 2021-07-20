@@ -4,9 +4,9 @@ import "github.com/gin-gonic/gin"
 
 type UserValidator struct {
 	User struct {
-		Username string `form:"username" json:"username" binding:"required,alphanum,min=4,max=255"`
-		Email    string `form:"email" json:"email" binding:"required,email"`
-		Password string `form:"password" json:"password" binding:"required,alphanum,min=8,max=255"`
+		Username string `json:"username" binding:"required,alphanum,min=4,max=255"`
+		Email    string `son:"email" binding:"required,email"`
+		Password string `json:"password" binding:"required,alphanum,min=8,max=255"`
 	} `json:"user"`
 
 	UserModel User `json:"-"`
@@ -30,6 +30,8 @@ type LoginValidator struct {
 		Username string `json:"username" binding:"required,alphanum,min=4,max=255"`
 		Password string `json:"password" binding:"required,alphanum,min=8,max=255"`
 	} `json:"user"`
+
+	IsCheck bool `json:"is_check"`
 }
 
 func (lv *LoginValidator) Bind(c *gin.Context) error {

@@ -8,13 +8,14 @@ import {
 } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group';
 
-import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
 function App() {
   const routes = [
-    { path: '/', name: 'Home', Component: Home },
+    { path: '/', name: 'Dashboard', Component: Dashboard },
+    { path: '/dashboard', name: 'Dashboard', Component: Dashboard },
     { path: '/login', name: 'Login', Component: Login },
     { path: '/register', name: 'Register', Component: Register },
   ]
