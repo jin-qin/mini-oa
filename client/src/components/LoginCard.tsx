@@ -41,7 +41,7 @@ function LoginCard() {
                         <div className='LoginCard-Bottom-Btn-Submit-Layout'>
                             <Button 
                                 bsPrefix="LoginCard-Bottom-Btn-Submit" 
-                                variant="primary" type="submit" 
+                                variant="primary"
                                 size='lg' 
                                 onClick={e => onLogin(e, {username, password})}
                             >
